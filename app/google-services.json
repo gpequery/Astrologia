@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "179076545667",
+    "project_id": "firebase-astrologia"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179076545667:android:4213a8622952be6d",
+        "android_client_info": {
+          "package_name": "com.esgi.astrologia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179076545667-jv222tqbeblequ4n52ncg2rmseri09h9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.esgi.astrologia",
+            "certificate_hash": "0fe57280946f8b478064eb3c081bb4d2fc6408d2"
+          }
+        },
+        {
+          "client_id": "179076545667-0ru1gl4cv46tf9rfhaidaodkfa6q97s6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATNhB2QhIZhzBZeCuq1Rmeq2gps3vfyqQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
