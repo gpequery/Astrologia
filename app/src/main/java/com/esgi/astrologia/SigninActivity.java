@@ -13,11 +13,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;
 import java.util.Calendar;
 import java.util.Date;
+import static com.esgi.astrologia.Services.GoogleServices.REQUEST_CODE_SIGN_IN;
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
     private GoogleSignInClient mGoogleApiClient;
-    /* Request code used to invoke sign in user interactions. */
-    private static final int RC_SIGN_IN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         if (account == null) {
             Log.i("MON_TAG", "account");
             Intent signInIntent = mGoogleApiClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
+            startActivityForResult(signInIntent, REQUEST_CODE_SIGN_IN);
         } else {
             String personName = account.getDisplayName();
             String personGivenName = account.getGivenName();

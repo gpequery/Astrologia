@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 public class GoogleServices {
     private static GoogleServices googleService;
+    public static final int REQUEST_CODE_SIGN_IN = 0;
 
     private GoogleServices() {
     }
