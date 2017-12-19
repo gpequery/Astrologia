@@ -159,3 +159,6 @@ fabric.properties
 *.tar.gz
 *.rar
 
+/app/google-services.json
+.idea/
+app/libs/
