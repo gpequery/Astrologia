@@ -160,5 +160,6 @@ fabric.properties
 *.rar
 
 /app/google-services.json
+app/google-services.json
 .idea/
 app/libs/
