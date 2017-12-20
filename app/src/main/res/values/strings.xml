@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Astrologia</string>
+    <string name="birthdate_not_found">Date d\'anniversaire non trouvé sur le compte</string>
+    <string name="count_not_found">Google+ non connecté</string>
+    <string name="please_select_date">Merci de sélectionner votre date d\'anniversaire</string>
+    <string name="without_account">Je n\'ai pas de compte</string>
 </resources>

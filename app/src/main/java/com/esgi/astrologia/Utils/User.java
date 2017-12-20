@@ -2,12 +2,14 @@ package com.esgi.astrologia.Utils;
 
 import java.util.Date;
 
-/**
- * Created by Greg on 04/12/2017.
- */
-
 public class User {
+    private int userId;
     private Date birthdate;
+
+    public User(int userId, Date birthdate) {
+        this.userId = userId;
+        this.birthdate = birthdate;
+    }
 
     public User(Date birthdate) {
         this.birthdate = birthdate;
@@ -17,7 +19,4 @@ public class User {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
 }
