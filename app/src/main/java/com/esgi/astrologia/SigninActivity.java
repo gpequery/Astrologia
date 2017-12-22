@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -49,15 +48,14 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 sign_in_with_google();
                 break;
             case R.id.sign_in_without_account:
-                sign_in_without_account(null);
+                sign_in_without_account();
                 break;
         }
     }
 
     private void sign_in_with_google() {
         GoogleSignInAccount account = GoogleServices.getInstance().get_last_connection(this);
-        int accountId = Integer.parseInt(account.getId());
-        
+
         if (account == null) {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, REQUEST_CODE_SIGN_IN);
@@ -68,26 +66,27 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         Date birthdate = SimpleDateFormat.getInstance().parse(person.getBirthday());
 
-                        User currentUser = new User(accountId, birthdate);
+                        User currentUser = new User(Integer.parseInt(account.getId()), birthdate);
                         goHome(currentUser);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    sign_in_without_account(getString(R.string.birthdate_not_found));
+                    mGoogleApiClient.disconnect();
+
+                    String msg = getString(R.string.birthdate_not_found) + "\n" + getString(R.string.without_account_text);
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 }
             } else {
-                sign_in_without_account(getString(R.string.count_not_found));
+                mGoogleApiClient.disconnect();
+
+                String msg = getString(R.string.count_not_found) + "\n" + getString(R.string.without_account_text);
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void sign_in_without_account(String msg) {
-        if(msg != null) {
-            msg += "\n" + getString(R.string.please_select_date);
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        }
-
+    private void sign_in_without_account() {
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
         int currentMonth = calendar.get(Calendar.MONTH);
@@ -135,10 +134,16 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             e.printStackTrace();
                         }
                     } else {
-                        sign_in_without_account(getString(R.string.birthdate_not_found));
+                        mGoogleApiClient.disconnect();
+
+                        String msg = getString(R.string.birthdate_not_found) + "\n" + getString(R.string.without_account_text);
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    sign_in_without_account(getString(R.string.count_not_found));
+                    mGoogleApiClient.disconnect();
+
+                    String msg = getString(R.string.count_not_found) + "\n" + getString(R.string.without_account_text);
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 }
             }
         }
