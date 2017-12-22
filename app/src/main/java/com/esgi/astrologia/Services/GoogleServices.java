@@ -1,6 +1,7 @@
 package com.esgi.astrologia.Services;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.esgi.astrologia.SigninActivity;
@@ -12,14 +13,13 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 
 public class GoogleServices {
     private static GoogleServices googleService;
+    private GoogleApiClient mGoogleApiClient;
     public static final int REQUEST_CODE_SIGN_IN = 0;
-
-    private GoogleServices() {
-    }
 
     public static GoogleServices getInstance() {
         if (googleService == null) {
@@ -48,5 +48,29 @@ public class GoogleServices {
 
     public GoogleSignInAccount get_last_connection(SigninActivity activity) {
         return GoogleSignIn.getLastSignedInAccount(activity);
+    }
+
+    public GoogleApiClient getGoogleClient() {
+        return mGoogleApiClient;
+    }
+
+    public void setGoogleClient(GoogleApiClient mGoogleApiClient) {
+        this.mGoogleApiClient = mGoogleApiClient;
+    }
+
+    public Intent getGoogleSignInIntent() {
+        return Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+    }
+
+    public boolean hasConnectedGooglePlus() {
+        return mGoogleApiClient.hasConnectedApi(Plus.API);
+    }
+
+    public Person getCurrentPerson() {
+        return Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+    }
+
+    public void disconnectAccount() {
+        mGoogleApiClient.disconnect();
     }
 }

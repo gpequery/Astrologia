@@ -4,10 +4,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.esgi.astrologia.Services.CalendarServices;
 import com.esgi.astrologia.Services.GoogleServices;
 import com.esgi.astrologia.Utils.User;
 import com.google.android.gms.auth.api.Auth;
@@ -15,29 +17,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
 import static com.esgi.astrologia.Services.GoogleServices.REQUEST_CODE_SIGN_IN;
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String MON_TAG = "TAG_SA";
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleServices google_service = GoogleServices.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        GoogleServices googleServices = GoogleServices.getInstance();
-        mGoogleApiClient = googleServices.get_GoogleApiClient_builder(this);
+        GoogleApiClient googleClient = google_service.get_GoogleApiClient_builder(this);
+        google_service.setGoogleClient(googleClient);
 
         SignInButton sign_in_with_google = findViewById(R.id.sign_in_with_google);
-
         sign_in_with_google.setOnClickListener(this);
     }
 
@@ -57,28 +55,24 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         GoogleSignInAccount account = GoogleServices.getInstance().get_last_connection(this);
 
         if (account == null) {
-            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-            startActivityForResult(signInIntent, REQUEST_CODE_SIGN_IN);
+            Intent googleSignInIntent = google_service.getGoogleSignInIntent();
+            startActivityForResult(googleSignInIntent, REQUEST_CODE_SIGN_IN);
         } else {
-            if (mGoogleApiClient.hasConnectedApi(Plus.API)) {
-                Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            if (google_service.hasConnectedGooglePlus()) {
+                Person person = google_service.getCurrentPerson();
                 if (person != null) {
-                    try {
-                        Date birthdate = SimpleDateFormat.getInstance().parse(person.getBirthday());
+                    Calendar birthdate = CalendarServices.stringToCalendar_en(person.getBirthday());
 
-                        User currentUser = new User(Integer.parseInt(account.getId()), birthdate);
-                        goHome(currentUser);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    User currentUser = new User(account.getGivenName(), birthdate);
+                    goHome(currentUser);
                 } else {
-                    mGoogleApiClient.disconnect();
+                    google_service.disconnectAccount();
 
                     String msg = getString(R.string.birthdate_not_found) + "\n" + getString(R.string.without_account_text);
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 }
             } else {
-                mGoogleApiClient.disconnect();
+                google_service.disconnectAccount();
 
                 String msg = getString(R.string.count_not_found) + "\n" + getString(R.string.without_account_text);
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -93,12 +87,12 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
-            calendar.set(Calendar.YEAR, selectedYear);
-            calendar.set(Calendar.MONTH, selectedMonth);
-            calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
+            Calendar bithdate = Calendar.getInstance();
+            bithdate.set(Calendar.YEAR, selectedYear);
+            bithdate.set(Calendar.MONTH, selectedMonth);
+            bithdate.set(Calendar.DAY_OF_MONTH, selectedDay);
 
-            Date birthdate = calendar.getTime();
-            User currentUser = new User(birthdate);
+            User currentUser = new User(bithdate);
 
             goHome(currentUser);
         }, currentYear, currentMonth, currentDay);
@@ -109,6 +103,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void goHome(User currentUser) {
+        Log.i(MON_TAG, "goHome");
+        Log.i(MON_TAG, "Birthdate = " + CalendarServices.calendarToString(currentUser.getBirthdate()));
+
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
@@ -122,25 +119,21 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             GoogleSignInAccount account = result.getSignInAccount();
 
             if(account != null) {
-                if (mGoogleApiClient.hasConnectedApi(Plus.API)) {
-                    Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+                if (google_service.hasConnectedGooglePlus()) {
+                    Person person = google_service.getCurrentPerson();
                     if (person != null) {
-                        try {
-                            Date birthdate = SimpleDateFormat.getInstance().parse(person.getBirthday());
+                        Calendar birthdate = CalendarServices.stringToCalendar_en(person.getBirthday());
 
-                            User currentUser = new User(Integer.parseInt(account.getId()), birthdate);
-                            goHome(currentUser);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        User currentUser = new User(account.getGivenName(), birthdate);
+                        goHome(currentUser);
                     } else {
-                        mGoogleApiClient.disconnect();
+                        google_service.disconnectAccount();
 
                         String msg = getString(R.string.birthdate_not_found) + "\n" + getString(R.string.without_account_text);
                         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    mGoogleApiClient.disconnect();
+                    google_service.disconnectAccount();
 
                     String msg = getString(R.string.count_not_found) + "\n" + getString(R.string.without_account_text);
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();

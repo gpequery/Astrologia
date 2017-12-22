@@ -1,22 +1,23 @@
 package com.esgi.astrologia.Utils;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class User {
-    private int userId;
-    private Date birthdate;
+    private String pseudo;
 
-    public User(int userId, Date birthdate) {
-        this.userId = userId;
+    private Calendar birthdate;
+
+    public User(String pseudo, Calendar birthdate) {
+        this.pseudo = pseudo;
         this.birthdate = birthdate;
     }
 
-    public User(Date birthdate) {
+    public User(Calendar birthdate) {
+
         this.birthdate = birthdate;
     }
 
-    public Date getBirthdate() {
+    public Calendar getBirthdate() {
         return birthdate;
     }
-
 }
