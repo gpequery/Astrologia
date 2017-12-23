@@ -68,7 +68,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         datePickerDialog.show();
     }
 
-
     private void finishConnection(User currentUser) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);

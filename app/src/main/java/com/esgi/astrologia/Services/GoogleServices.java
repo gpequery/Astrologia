@@ -3,12 +3,8 @@ package com.esgi.astrologia.Services;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.esgi.astrologia.R;
 import com.esgi.astrologia.SigninActivity;
-import com.esgi.astrologia.Utils.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -18,11 +14,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-
-import java.util.Calendar;
-
-import static com.esgi.astrologia.SigninActivity.MON_TAG;
-
 
 public class GoogleServices {
     private static GoogleServices googleService;
@@ -56,10 +47,6 @@ public class GoogleServices {
 
     public GoogleSignInAccount get_last_connection(SigninActivity activity) {
         return GoogleSignIn.getLastSignedInAccount(activity);
-    }
-
-    public GoogleApiClient getGoogleClient() {
-        return mGoogleApiClient;
     }
 
     public void setGoogleClient(GoogleApiClient mGoogleApiClient) {
