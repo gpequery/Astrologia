@@ -2,12 +2,15 @@ package com.esgi.astrologia;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.esgi.astrologia.Constants.Preferences;
 import com.esgi.astrologia.Services.CalendarServices;
 import com.esgi.astrologia.Services.GoogleServices;
 import com.esgi.astrologia.Utils.User;
@@ -15,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
@@ -69,6 +73,13 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void finishConnection(User currentUser) {
+        Gson gson = new Gson();
+        String userJson = gson.toJson(currentUser);
+
+        SharedPreferences.Editor preferences = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        preferences.putString(Preferences.USER, userJson);
+        preferences.apply();
+
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
