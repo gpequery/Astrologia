@@ -3,5 +3,5 @@
     <string name="birthdate_not_found">Date d\'anniversaire non public sur votre compte</string>
     <string name="count_not_found">Google+ n\'est pas relié à votre compte</string>
     <string name="without_account_button">Je n\'ai pas de compte</string>
-    <string name="without_account_text">Mofidier et tentez à nouveau ou vous connectez sans compte</string>
+    <string name="without_account_text">Modifier et tenter à nouveau ou vous connecter sans compte</string>
 </resources>

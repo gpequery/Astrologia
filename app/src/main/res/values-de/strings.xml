@@ -1,0 +1,6 @@
+<resources>
+    <string name="birthdate_not_found">Der Geburtstag ist in deinem Konto nicht öffentlich</string>
+    <string name="count_not_found">Google+ ist nicht mit deinem Konto verbunden</string>
+    <string name="without_account_button">Ich habe kein Konto</string>
+    <string name="without_account_text">Bearbeiten und wiederholen Sie die Anmeldung oder melden Sie sich ohne Konto an</string>
+</resources>
