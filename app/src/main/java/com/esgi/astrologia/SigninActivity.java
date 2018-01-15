@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -33,11 +34,21 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        GoogleApiClient googleClient = google_service.get_GoogleApiClient_builder(this);
-        google_service.setGoogleClient(googleClient);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        SignInButton signInWithGoogle = findViewById(R.id.sign_in_with_google);
-        signInWithGoogle.setOnClickListener(this);
+        Gson gson = new Gson();
+        String json_last_user = preferences.getString(Preferences.USER, null);
+
+        if(json_last_user != null) {
+            User lastUser = gson.fromJson(json_last_user, User.class);
+            finishConnection(lastUser);
+        } else {
+            GoogleApiClient googleClient = google_service.get_GoogleApiClient_builder(this);
+            google_service.setGoogleClient(googleClient);
+
+            SignInButton signInWithGoogle = findViewById(R.id.sign_in_with_google);
+            signInWithGoogle.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -73,13 +84,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void finishConnection(User currentUser) {
-        Gson gson = new Gson();
-        String userJson = gson.toJson(currentUser);
-
-        SharedPreferences.Editor preferences = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        preferences.putString(Preferences.USER, userJson);
-        preferences.apply();
-
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
@@ -102,6 +106,14 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 Calendar birthdate = CalendarServices.stringToCalendar_en(person.getBirthday());
 
                 User currentUser = new User(account.getGivenName(), birthdate);
+
+                Gson gson = new Gson();
+                String userJson = gson.toJson(currentUser);
+
+                SharedPreferences.Editor preferences = PreferenceManager.getDefaultSharedPreferences(this).edit();
+                preferences.putString(Preferences.USER, userJson);
+                preferences.apply();
+
                 finishConnection(currentUser);
             } else {
                 google_service.disconnectAccount();
