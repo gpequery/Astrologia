@@ -6,7 +6,6 @@
     <string name="without_account_text">Modifier et tenter à nouveau ou vous connecter sans compte</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="phoneNumber">Numéro de téléphone</string>
+    <string name="contentMessage">Contenue du message</string>
 </resources>

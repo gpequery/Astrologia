@@ -4,9 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.esgi.astrologia.Fragment2">
 
-    <TextView
+    <EditText
+        android:id="@+id/phoneNumber"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment2" />
+        android:ems="10"
+        android:inputType="phone"
+        android:gravity="center"
+        android:hint="@string/phoneNumber"/>
 
 </FrameLayout>
