@@ -29,7 +29,6 @@ import java.util.Calendar;
 import static com.esgi.astrologia.Services.GoogleServices.REQUEST_CODE_SIGN_IN;
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String MON_TAG = "TAG_SA";
     private GoogleServices google_service = GoogleServices.getInstance();
 
     @Override
@@ -42,11 +41,11 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        Gson gson = new Gson();
         String json_last_user = preferences.getString(Preferences.USER, null);
 
         if(json_last_user != null) {
+            Gson gson = new Gson();
+
             User lastUser = gson.fromJson(json_last_user, User.class);
             finishConnection(lastUser);
         } else {
@@ -91,6 +90,12 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void finishConnection(User currentUser) {
+        Gson gson = new Gson();
+        String userJson = gson.toJson(currentUser);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit().putString(Preferences.USER, userJson).apply();
+
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
