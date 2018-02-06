@@ -41,8 +41,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
 
         /* TESTS */
-//        BddHandler  bddHandler= new BddHandler(this, DB_NAME, null, DB_VERSION);
-//        String sql = "Select * from Sign";
+        BddHandler  bddHandler= new BddHandler(this, DB_NAME, null, DB_VERSION);
+        String sql = "Select * from Sign";
 //        Cursor mCursor = bddHandler.getDatabaseName();
         /* ***** */
 
