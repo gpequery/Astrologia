@@ -57,7 +57,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             Gson gson = new Gson();
 
             User lastUser = gson.fromJson(json_last_user, User.class);
-            finishConnection(lastUser);
+            finishConnection(lastUser, false);
         } else {
             GoogleApiClient googleClient = google_service.get_GoogleApiClient_builder(this);
             google_service.setGoogleClient(googleClient);
@@ -92,19 +92,21 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             bithdate.set(Calendar.DAY_OF_MONTH, selectedDay);
 
             User currentUser = new User(bithdate);
-            finishConnection(currentUser);
+            finishConnection(currentUser, false);
         }, currentYear, currentMonth, currentDay);
 
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         datePickerDialog.show();
     }
 
-    private void finishConnection(User currentUser) {
+    private void finishConnection(User currentUser, boolean withGoogle) {
         Gson gson = new Gson();
         String userJson = gson.toJson(currentUser);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.edit().putString(Preferences.USER, userJson).apply();
+        SharedPreferences.Editor preferences = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        preferences.putString(Preferences.USER, userJson);
+        preferences.putBoolean(Preferences.WITH_GOOGLE, withGoogle);
+        preferences.apply();
 
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
@@ -136,7 +138,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 preferences.putString(Preferences.USER, userJson);
                 preferences.apply();
 
-                finishConnection(currentUser);
+                finishConnection(currentUser, true);
             } else {
                 google_service.disconnectAccount();
 

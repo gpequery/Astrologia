@@ -8,4 +8,5 @@
     <string name="add_widget">Add widget</string>
     <string name="phoneNumber">Numéro de téléphone</string>
     <string name="contentMessage">Contenue du message</string>
+    <string name="logout">Déconnection</string>
 </resources>

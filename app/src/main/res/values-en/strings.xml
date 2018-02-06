@@ -3,4 +3,5 @@
     <string name="count_not_found">Google+ is not connected to your account</string>
     <string name="without_account_button">I haven\'t an account</string>
     <string name="without_account_text">Edit and retry or sign in without an account</string>
+    <string name="logout">Logout</string>
 </resources>
