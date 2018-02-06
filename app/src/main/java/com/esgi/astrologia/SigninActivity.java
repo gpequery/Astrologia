@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,9 +42,11 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
 
         /* TESTS */
-        BddHandler  bddHandler= new BddHandler(this, DB_NAME, null, DB_VERSION);
-        String sql = "Select * from Sign";
-//        Cursor mCursor = bddHandler.getDatabaseName();
+//        BddHandler  bddHandler= new BddHandler(this, DB_NAME, null, DB_VERSION);
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        String sql = "Select * from Sign";
+////        Cursor mCursor = bddHandler.getDatabaseName();
+//        Cursor c = bddHandler.rawQuery("SELECT * FROM tbl1 WHERE TRIM(name) = '"+name.trim()+"'", null);
         /* ***** */
 
         if (ContextCompat.checkSelfPermission(this,"android.permission.SEND_SMS") != PackageManager.PERMISSION_GRANTED) {

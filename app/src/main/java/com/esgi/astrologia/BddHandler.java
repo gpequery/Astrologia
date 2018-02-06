@@ -33,6 +33,8 @@ public class BddHandler extends SQLiteOpenHelper {
             "('', 'Verseau', '2017-01-21', '2017-02-19'), " +
             "('', 'Poisson', '2017-02-20', '2017-03-20')";
 
+
+
     public BddHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
