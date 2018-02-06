@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,12 +30,21 @@ import java.util.Calendar;
 import static com.esgi.astrologia.Services.GoogleServices.REQUEST_CODE_SIGN_IN;
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String DB_NAME = "Astrologia";
+    public static final int DB_VERSION = 1;
     private GoogleServices google_service = GoogleServices.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
+
+        /* TESTS */
+//        BddHandler  bddHandler= new BddHandler(this, DB_NAME, null, DB_VERSION);
+//        String sql = "Select * from Sign";
+//        Cursor mCursor = bddHandler.getDatabaseName();
+        /* ***** */
 
         if (ContextCompat.checkSelfPermission(this,"android.permission.SEND_SMS") != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(SigninActivity.this, new String[] {"android.permission.SEND_SMS" }, 1);
