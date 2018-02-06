@@ -12,7 +12,7 @@ public final class CalendarServices {
             String month = String.format(Locale.FRANCE, "%02d", (calendar.get(Calendar.MONTH) + 1));
             String day = String.format(Locale.FRANCE, "%02d", calendar.get(Calendar.DAY_OF_MONTH));
 
-            result = day + "-" + month + "-" + year;
+            result = day + "/" + month + "/" + year;
         }
 
         return result;
